@@ -25,7 +25,6 @@ def reward_function(params):
         reward = 0.1
     else:
         reward = 1e-3  
-    
 
 
     #Give higher reward if the agent goes faster
