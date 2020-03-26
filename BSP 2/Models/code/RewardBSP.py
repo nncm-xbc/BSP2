@@ -10,6 +10,8 @@ def reward_function(params):
     progress = params['progress']
     is_crashed = params['is_crashed']
     is_offtrack = params['is_offtrack']
+    waypoints = params['waypoints']
+    heading = params['heading']
 
     # Calculate 3 markers that are at varying distances away from the center line
     marker_1 = 0.1 * track_width
@@ -20,7 +22,7 @@ def reward_function(params):
     if distance_from_center <= marker_1:
         reward = 1
     elif distance_from_center <= marker_2:
-        reward = 0.5
+        reward = 0.5   
     elif distance_from_center <= marker_3:
         reward = 0.1
     else:
@@ -42,6 +44,8 @@ def reward_function(params):
     #Check every 100 steps if it is lower than the progress of the track and give according reward to the difference
     if (steps % 100) == 0 and progress > (steps / total_steps) * 100:
         reward = int(progress) - int(steps)
+
+    #Gives higher reward if the car is looking towards the next waypoint on the track.
 
 
     # Steering penality threshold, change the number based on your action space setting
@@ -68,7 +72,7 @@ def reward_function(params):
 - the faster it goes the higher the reward
 - the less steps used to complete the track the better reward
 - if crash penalize
+- the more the track is completed the higher the reward 
 
 - if the car is heading towards closest waypoint better reward
-- the more the track is completed the higher the reward 
 """
