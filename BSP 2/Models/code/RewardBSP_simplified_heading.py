@@ -6,6 +6,9 @@ def reward_function(params):
     waypoints = params['waypoints']
     heading = params['heading']
     closest_waypoints = params['closest_waypoints']
+    speed = params['speed']
+    is_crashed = params['is_crashed']
+    is_offtrack = params['is_offtrack']
 
     #Gives higher reward if the car is looking towards the next waypoint on the track.
     #Create previous and incomming waypoint
@@ -32,6 +35,19 @@ def reward_function(params):
     elif diff < angle_treshold_max: 
         reward = 1
     elif diff > angle_treshold_max:
+        reward = 1e-3
+    
+    #Speed limit(lower limit in m/s)
+    speed_limit = 1
+
+    #Give higher reward if the agent goes faster
+    if speed < speed_limit:
+        reward = 1e-3
+    else:
+        reward = 0.1
+
+    #Penalize reward if agent crashed
+    if is_crashed == True or is_offtrack == True:
         reward = 1e-3
     
     return float(reward)
